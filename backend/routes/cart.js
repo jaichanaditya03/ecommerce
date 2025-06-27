@@ -1,9 +1,12 @@
-const express  = require('express');
+const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 
+const { addcart, cart, getCart,updateCart } = require('../controllers/cart.controller');
 
-// route to get cart
-router.get('/userCart',)
+router.get('/userCart', cart);
+
+router.post('/addcart', addcart);
+router.get('/userCart', getCart);
+router.put('/updateCart', updateCart);
 
 module.exports = router;

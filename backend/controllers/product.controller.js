@@ -4,7 +4,6 @@ const {Product} = require('../model/Product');
 const { User } = require('../model/User'); 
 
 
-
 const product = async (req, res) => {
     try{
         const product = await Product.find({});
@@ -115,11 +114,11 @@ const updateProduct = async(req,res)=>{
     }
 }
 
-//route delete
+
 const deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        const token = req.headers.token || req.headers.authorization; // common fallback
+        const token = req.headers.token || req.headers.authorization;
 
         if (!token) {
             return res.status(401).json({ message: "Access denied. No token provided." });
