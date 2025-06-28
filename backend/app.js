@@ -5,6 +5,7 @@ const connectedDB = require('./DB/connectDB');
 const cors = require('cors');
 const morgan = require('morgan');
 const routes = require('./routes/index');
+const dotenv = require('dotenv').config();
 
 //db
 connectedDB();

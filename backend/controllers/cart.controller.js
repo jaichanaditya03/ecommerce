@@ -1,8 +1,12 @@
+
+require('dotenv').config(); // must be on top
+
 const jwt = require('jsonwebtoken');
 const {Cart} = require('../model/Cart');
 const {User} = require('../model/User');
 const {Product} = require('../model/Product');
 const {model}  = require('mongoose');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
 //create cart for user
@@ -196,8 +200,64 @@ const updateCart = async (req, res) => {
 };
 
 
+//payment
+const payment = async (req, res) => {
+try{
+  const {token} = req.headers;
+  const decodedToken = jwt.verify(token,"supersecret"); 
+  const user = await User.findOne({email:decodedToken.email}).populate({
+    path: 'cart',
+    populate:{
+      path: 'products.product',
+      model:'Product'
+    }
+  })
+  if(!user || !user.cart|| user.cart.products.length === 0){
+    return res.status(404).json({message:"Cart not found"});
+  }
+
+  //payment
+  const lineItems = user.cart.products.map((item) => {
+   return {price_data: {
+      currency: 'inr',
+      product_data: {
+        name: item.product.name,
+        images: [item.product.image],
+      },
+      unit_amount: item.product.price * 100, // Convert to cents
+    },
+    quantity: item.quantity,
+  }})
+
+  const currentUrl = process.env.CLIENT_URL || 'http://localhost:3000';
+
+  const session = await stripe.checkout.sessions.create({
+  payment_method_types: ['card'],
+  line_items: lineItems,
+  mode: 'payment',
+  success_url: `${currentUrl}/success`,
+  cancel_url: `${currentUrl}/cancel`
+  
+  })
+  //empty cart
+  user.cart.products = [];
+  user.cart.total = 0;
+  await user.cart.save();
+  await user.save();
+    res.status(200).json({
+    message: "Payment successful",
+    url: session.url,
+  });
+
+
+}catch(error){
+    console.log(error);
+    res.status(400).json({
+        message:"internal server error"
+    })
+  } 
+}
 
 
 
-
-module.exports = {addcart,cart,getCart,updateCart};
+module.exports = {addcart,cart,getCart,updateCart,payment};
