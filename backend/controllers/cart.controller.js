@@ -7,6 +7,7 @@ const {User} = require('../model/User');
 const {Product} = require('../model/Product');
 const {model}  = require('mongoose');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const sendEmail = require('../utils/userEmail');
 
 
 //create cart for user
@@ -239,6 +240,14 @@ try{
   cancel_url: `${currentUrl}/cancel`
   
   })
+
+  //send email to user
+  await sendEmail(user.email, user.cart.products.map((item) => ({
+    name: item.product.name,
+    price: item.product.price,
+    quantity: item.quantity
+  })))
+  
   //empty cart
   user.cart.products = [];
   user.cart.total = 0;
