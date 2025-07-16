@@ -5,6 +5,31 @@ import { register } from '../api/auth';
 import { useAuth } from '../Context/AuthContext';
 
 export default function Register() {
+    const navigate = useNavigate();
+    const{setUser} = useAuth();
+    const[error, setError] = useState('');
+   const[loading, setLoading] =useState(false);
+
+   async function handleSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email');
+    const password = formData.get('password');
+    const name = formData.get('name')
+    try{
+        setLoading(true);
+        setError('');
+        const user = await register({email, password,name})
+        setUser(user)
+        navigate('/login')
+    }catch(err){
+        console.log("error:",err);
+        setError('Registration failed , please try again')
+    }finally{
+        setLoading(false)
+    }
+
+   }
    
 
     return (
@@ -26,7 +51,7 @@ export default function Register() {
 
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                    <form className="space-y-6">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                                 Full Name
@@ -79,10 +104,10 @@ export default function Register() {
                         <div>
                             <button
                                 type="submit"
-                                
+                                disabled = {loading}
                                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
                             >
-                        
+                                {loading ? 'Creating account...':'Create account'}
                             </button>
                         </div>
                     </form>

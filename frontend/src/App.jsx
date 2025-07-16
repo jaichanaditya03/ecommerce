@@ -5,32 +5,44 @@ import Landing from './components/Landing'
 import Register from './Pages/Register'
 import Login from './Pages/Login'
 import Home from './Pages/Home'
+import { PrivateRoute, PublicRoute } from './components/RouteGuards'
 
 const router = createBrowserRouter([
   {
-    path:'/',
-    element:<Default/>,
-    children:[
+    path: '/',
+    element: <Default />,
+    children: [
       {
-        path:"/",
-        element:<Landing/>
+        path: '/',
+        element: <Landing />
       },
       {
-        path:"/register",
-        element:<Register/>
+        path: '/home',
+        element: (
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        )
       },
       {
-        path:"/login",
-        element:<Login/>
+        path: '/login',
+        element: (
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        )
       },
       {
-        path:"/home",
-        element:<Home/>
+        path: '/register',
+        element: (
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        )
       }
     ]
-
   }
-])
+]);
 
 function App() {
   return (
