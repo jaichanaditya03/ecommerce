@@ -15,9 +15,14 @@ export default function Login() {
         e.preventDefault();
         setError('');
         try {
-            const userData = await login(email, password);
+            const userData = await login({ email, password });
             setUser(userData);
             setIsAuthenticated(true);
+
+            // ✅ Save user and auth flag in localStorage
+            localStorage.setItem('user', JSON.stringify(userData));
+            localStorage.setItem('isAuthenticated', 'true');
+
             navigate('/home');
         } catch (err) {
             setError(err.message || 'Login failed');

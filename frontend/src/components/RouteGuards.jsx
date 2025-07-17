@@ -8,7 +8,7 @@ export function PrivateRoute({children}){
     if(isLoggedIn){
         return children;
     }else{
-        return navigate('/login')
+        return <Navigate to="/login" />
     }
 }
 

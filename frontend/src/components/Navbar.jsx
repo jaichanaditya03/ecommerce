@@ -7,16 +7,16 @@ function Navbar() {
     const isLoggedIn = localStorage.getItem('isAuthenticated') === "true";
     const navigate = useNavigate();
 
-   function handleLogout() {
-  localStorage.removeItem('user');
-  localStorage.removeItem('isAuthenticated'); // ✅ Correct key
-  navigate('/login');
-}
+    function handleLogout() {
+        localStorage.removeItem('user');
+        localStorage.removeItem('isAuthenticated'); // ✅ Correct key
+        navigate('/login');
+    }
 
     return (
         <nav className="bg-white border-gray-200">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                
+
                 {/* 🔗 Logo Link */}
                 <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="KLE Logo" />
@@ -45,7 +45,7 @@ function Navbar() {
                                 </li>
 
                                 <li>
-                                    <Link to="/product/add" className="block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
+                                    <Link to="/products/add" className="block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
                                         Add Products
                                     </Link>
                                 </li>

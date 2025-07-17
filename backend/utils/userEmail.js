@@ -2,7 +2,7 @@ const nodeEmailer = require('nodemailer');
 
 const sendEmail = async (userEmail, productArray) => {
   if (!userEmail) {
-    console.error("❌ No recipient email provided.");
+    console.error(" No recipient email provided.");
     return;
   }
 
@@ -29,9 +29,9 @@ const sendEmail = async (userEmail, productArray) => {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('✅ Email sent successfully');
+    console.log(' Email sent successfully');
   } catch (error) {
-    console.error('❌ Error sending email:', error);
+    console.error(' Error sending email:', error);
   }
 };
 
