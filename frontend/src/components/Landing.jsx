@@ -10,7 +10,7 @@ export default function Landing() {
         className="relative h-[600px] bg-cover bg-center"
         style={{
           backgroundImage:
-            'url("https://www.westend61.de/images/0001385151pw/crop-view-of-man-carrying-shopping-bags-DIGF11990.jpg")',
+            'url("https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.1")',
         }}
       >
         <div className="absolute inset-0 bg-black opacity-40" />

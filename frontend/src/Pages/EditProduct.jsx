@@ -1,8 +1,64 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getSingleProduct, updateProduct  } from '../api/product';
 
-function EditProduct() {
-    
-  return (
+export default function EditProduct() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const [loading, setLoading] = useState(false);
+  const [product, setProduct] = useState({
+    name: '',
+    description: '',
+    price: '',
+    image: '',
+    stock: 0,
+    brand: ''
+  });
+
+  // 🔸 Fetch product on load
+ // 👇 Function outside useEffect
+async function fetchProductData(id, setProduct) {
+  try {
+    const productData = await getSingleProduct(id);
+    setProduct(productData);
+  } catch (error) {
+    console.error("Failed to fetch product:", error);
+  }
+}
+
+// Inside component:
+useEffect(() => {
+  if (id) {
+    fetchProductData(id, setProduct); // 👈 Call the external function
+  }
+}, [id]);
+
+  // 🔸 Handle form submit
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      await updateProduct(id, product);
+      navigate('/products');
+    } catch (error) {
+      console.error('Failed to update product:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // 🔸 Input change handler
+  function handleInputChange(e) {
+    const { name, value } = e.target;
+    setProduct(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }
+
+ return (
   <div className="min-h-screen bg-gray-50 py-8">
     <div className="max-w-2xl mx-auto px-4">
       <h1 className="text-3xl font-bold text-gray-900 mb-8">Edit Product</h1>
@@ -97,5 +153,3 @@ function EditProduct() {
 );
 
 }
-
-export default EditProduct

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Plus, Edit, Trash2, ShoppingCart } from "lucide-react";
+import { ShoppingCart, Edit, Trash2, Plus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { deleteProduct, getAllProducts } from "../api/product";
+
+import { addToCart, getCart } from "../api/cart";
+import { getAllProducts, deleteProduct } from "../api/product";
 
 
 export default function Products() {
-  // 🔹 All necessary state variables
+  // 🔹 States
   const [allProducts, setAllProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,63 +17,74 @@ export default function Products() {
 
   const navigate = useNavigate();
 
-  //fetch all the products
-  async function getProducts() {
-    setLoading(true);
-    setError(null);
-    try{
-        const response = await getAllProducts();
-        setAllProducts(response.products);
-        setFilteredProducts(response.products)
-    }catch(err){
-        setError(err);
-    }finally{
-        setLoading(false)
-    }
-  }
-
-  useEffect(()=>{
-    getProducts();
-  },[])
-
-  //search product 
-  const handleSearch = (e)=>{
-    const term = e.target.value;
-    setSearchTerm(term);
-    if (term.trim() === "") {
-    // If input is empty, show all products again
-    setFilteredProducts(allProducts);
-    return;
-  }
-    const filtered = allProducts.filter((product)=>
-        product.name.toLowerCase().includes(term.toLowerCase() || 
-        product.description.toLowerCase().includes(term.toLowerCase())
-    
-    )
-)
-    setFilteredProducts(filtered);
-
-  }
-
-
-  //delete Product handler
-  const handleDeleteProduct = async(productId)=>{
-    try{
-        await deleteProduct(productId);
-        await getAllProducts()
-    }catch(err){
-        setError(err);
-    }
-  }
-
-  
  
 
-  // 🔹 UI Return Part
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  // 🔹 Fetch all products from API
+  async function getProductsTwo() {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await getAllProducts();
+      setAllProducts(response.products);
+      setFilteredProducts(response.products);
+    } catch (error) {
+      setError(error);
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+ // 🔹 Fetch products on mount
+  useEffect(() => {
+    getProductsTwo();
+  }, []);
+  // 🔹 Search handler
+  const handleSearch = (event) => {
+    const term = event.target.value;
+    setSearchTerm(term);
 
-  return (
+    const filtered = allProducts.filter(
+      (product) =>
+        product.name.toLowerCase().includes(term.toLowerCase()) ||
+        product.description.toLowerCase().includes(term.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  };
+
+  // 🔹 Add to Cart handler
+  const handleAddToCart = async (productId) => {
+    try {
+      await addToCart(productId, 1); // Quantity 1
+      const updatedCart = await getCart();
+      setCart(updatedCart);
+      navigate("/cart");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
+  };
+
+  // 🔹 Delete product handler
+  const handleDeleteProduct = async (productId) => {
+    try {
+      await deleteProduct(productId);
+      await getProductsTwo(); // Refresh product list
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+
+  // 🔹 Loading state
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // 🔹 Error state
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  // 🔹 UI
+return (
   <div className="min-h-screen bg-gray-50 py-8">
     <div className="max-w-7xl mx-auto px-4">
       {/* 🔹 Header and Search */}
@@ -148,6 +161,6 @@ export default function Products() {
       </div>
     </div>
   </div>
-)
+);
 
 }

@@ -6,11 +6,13 @@ import Register from './Pages/Register'
 import Login from './Pages/Login'
 import Home from './Pages/Home'
 import { PrivateRoute, PublicRoute } from './components/RouteGuards'
-import EditProduct from './Pages/EditProduct'
-import AddProduct from './Pages/AddProduct';
-//import { AddProduct } from './api/product'
 import Products from './Pages/Products'
+import AddProduct from './Pages/AddProduct'
+import EditProduct from './Pages/EditProduct'
+import Cart from './Pages/Cart'
 
+import Success from './pages/Succes'
+import Cancel from './Pages/Cancel'
 const router = createBrowserRouter([
   {
     path: '/',
@@ -53,7 +55,7 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: '/products/add',
+        path: '/product/add',
         element: (
           <PrivateRoute>
             <AddProduct />
@@ -61,16 +63,42 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: '/products/edit/:id',
+        path: '/cart',
         element: (
           <PrivateRoute>
-            <EditProduct />
+            <Cart />
           </PrivateRoute>
         )
       },
+      {
+    path: '/products/edit/:id',  // ✅ Newly added route
+    element: (
+      <PrivateRoute>
+        <EditProduct />
+      </PrivateRoute>
+    )
+  },  
+  {
+    path: '/success',  // ✅ Newly added route
+    element: (
+      <PrivateRoute>
+        <Success />
+      </PrivateRoute>
+    )
+  },
+  {
+    path: '/cancel',  // ✅ Newly added route
+    element: (
+      <PrivateRoute>
+        <Cancel />
+      </PrivateRoute>
+    )
+  },
     ]
   }
 ]);
+
+
 
 function App() {
   return (
