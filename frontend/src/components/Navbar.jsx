@@ -45,7 +45,7 @@ function Navbar() {
                                 </li>
 
                                 <li>
-                                    <Link to="/product/add" className="block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
+                                    <Link to="/products/add" className="block py-2 px-3 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-black md:p-0">
                                         Add Products
                                     </Link>
                                 </li>

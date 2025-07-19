@@ -1,5 +1,5 @@
 import React from 'react'
-import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Default from './Pages/Default'
 import Landing from './components/Landing'
 import Register from './Pages/Register'
@@ -11,7 +11,7 @@ import AddProduct from './Pages/AddProduct'
 import EditProduct from './Pages/EditProduct'
 import Cart from './Pages/Cart'
 
-import Success from './pages/Succes'
+import Success from './Pages/Succes'
 import Cancel from './Pages/Cancel'
 const router = createBrowserRouter([
   {
@@ -55,13 +55,14 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: '/product/add',
+        path: '/products/add',
         element: (
           <PrivateRoute>
             <AddProduct />
           </PrivateRoute>
         )
       },
+
       {
         path: '/cart',
         element: (
@@ -71,29 +72,29 @@ const router = createBrowserRouter([
         )
       },
       {
-    path: '/products/edit/:id',  // ✅ Newly added route
-    element: (
-      <PrivateRoute>
-        <EditProduct />
-      </PrivateRoute>
-    )
-  },  
-  {
-    path: '/success',  // ✅ Newly added route
-    element: (
-      <PrivateRoute>
-        <Success />
-      </PrivateRoute>
-    )
-  },
-  {
-    path: '/cancel',  // ✅ Newly added route
-    element: (
-      <PrivateRoute>
-        <Cancel />
-      </PrivateRoute>
-    )
-  },
+        path: '/products/edit/:id',  // ✅ Newly added route
+        element: (
+          <PrivateRoute>
+            <EditProduct />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: '/success',  // ✅ Newly added route
+        element: (
+          <PrivateRoute>
+            <Success />
+          </PrivateRoute>
+        )
+      },
+      {
+        path: '/cancel',  // ✅ Newly added route
+        element: (
+          <PrivateRoute>
+            <Cancel />
+          </PrivateRoute>
+        )
+      },
     ]
   }
 ]);
@@ -103,7 +104,7 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </div>
   )
 }

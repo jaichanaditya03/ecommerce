@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBag, Trash2, Plus, Minus } from 'lucide-react';
-import { getCart, removeFromCart, updateQuantity,makePayment } from '../api/cart'; // makePayment removed for now
+import { getCart, removeFromCart, updateQuantity, makePayment } from '../api/cart';
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
@@ -72,23 +72,22 @@ export default function Cart() {
     );
   };
 
- const handleCheckout = async () => {
-  try {
-    setIsPaying(true);
-    const res = await makePayment();
-    if (res?.url) {
-      window.location.href = res.url; // Redirect to Stripe
-    } else {
-      alert("Stripe did not return a valid URL");
+  const handleCheckout = async () => {
+    try {
+      setIsPaying(true);
+      const res = await makePayment();
+      if (res?.url) {
+        window.location.href = res.url;
+      } else {
+        alert("Stripe did not return a valid URL");
+      }
+    } catch (err) {
+      console.error("Payment Error:", err.message);
+      alert("Payment failed. Check console for more details.");
+    } finally {
+      setIsPaying(false);
     }
-  } catch (err) {
-    console.error("Payment Error:", err.message);
-    alert("Payment failed. Check console for more details.");
-  } finally {
-    setIsPaying(false);
-  }
-};
-
+  };
 
   if (cart.length === 0) {
     return (
@@ -115,13 +114,7 @@ export default function Cart() {
       <div className="max-w-7xl mx-auto px-4">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">Shopping Cart</h1>
 
-        {/* 💡 Note about payment
-        <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 px-4 py-3 rounded mb-6">
-          💡 <span className="font-semibold">Note:</span> Payment gateway integration is in progress. All other features are functional.
-        </div> */}
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Cart Items */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow overflow-hidden">
               <ul className="divide-y divide-gray-200">
@@ -136,7 +129,7 @@ export default function Cart() {
                       <div className="flex-1">
                         <h3 className="text-lg font-medium text-gray-900">{item.product?.name}</h3>
                         <p className="text-lg font-medium text-gray-900">
-                          ${(item.product?.price * (item.quantity || 1)).toFixed(2)}
+                          ₹{(item.product?.price * (item.quantity || 1)).toLocaleString('en-IN')}
                         </p>
                         <div className="flex items-center space-x-2 mt-2">
                           <button
@@ -167,14 +160,13 @@ export default function Cart() {
             </div>
           </div>
 
-          {/* Order Summary */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow p-6">
               <h2 className="text-lg font-medium text-gray-900 mb-4">Order Summary</h2>
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Subtotal</span>
-                  <span className="text-gray-900">${cartTotal.toFixed(2)}</span>
+                  <span className="text-gray-900">₹{cartTotal.toLocaleString('en-IN')}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Shipping</span>
@@ -183,18 +175,17 @@ export default function Cart() {
                 <div className="border-t pt-4">
                   <div className="flex justify-between">
                     <span className="text-lg font-medium text-gray-900">Total</span>
-                    <span className="text-lg font-medium text-gray-900">${cartTotal.toFixed(2)}</span>
+                    <span className="text-lg font-medium text-gray-900">₹{cartTotal.toLocaleString('en-IN')}</span>
                   </div>
                 </div>
 
-                {/* 🔕 Disabled Payment Button */}
                 <button
-                onClick={handleCheckout}
-                className={`w-full py-2 px-4 rounded mt-6 text-white font-semibold transition 
+                  onClick={handleCheckout}
+                  className={`w-full py-2 px-4 rounded mt-6 text-white font-semibold transition 
                     ${isPaying ? "bg-gray-400 cursor-not-allowed" : "bg-indigo-600 hover:bg-indigo-700"}`}
-                disabled={isPaying}
+                  disabled={isPaying}
                 >
-                {isPaying ? "Processing..." : "Make Payment"}
+                  {isPaying ? "Processing..." : "Make Payment"}
                 </button>
 
               </div>
