@@ -66,16 +66,16 @@ NODE_PASS=your_email_app_password
 
 ## 📸 Screenshots
 ### Home Page
-![Home](assets/screenshots/home.png)
+![Home](https://raw.githubusercontent.com/jaichanaditya03/ecommerce/main/assets/screenshots/home.png)
 
 ### Cart Page
-![Cart](assets/screenshots/cart.png)
+![Cart](https://raw.githubusercontent.com/jaichanaditya03/ecommerce/main/assets/screenshots/cart.png)
 
 ### Payment Success
-![Payment](assets/screenshots/payment.png)
+![Payment](https://raw.githubusercontent.com/jaichanaditya03/ecommerce/main/assets/screenshots/payment.png)
 
 ### Mail Received
-![Mail](assets/screenshots/mailreceived.png)
+![Mail](https://raw.githubusercontent.com/jaichanaditya03/ecommerce/main/assets/screenshots/mailreceived.png)
 
 
 
