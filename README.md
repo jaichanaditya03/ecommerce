@@ -63,18 +63,19 @@ STRIPE_SECRET_KEY=your_stripe_key
 CLIENT_URL=http://localhost:5173
 NODE_EMAIL=your_email@gmail.com
 NODE_PASS=your_email_app_password
+
 ## 📸 Screenshots
-
 ### Home Page
-![Home Page](./assets/screenshots/home.png)
+![Home](assets/screenshots/home.png)
 
-### Cart
-![Cart](./assets/screenshots/cart.png)
+### Cart Page
+![Cart](assets/screenshots/cart.png)
 
 ### Payment Success
-![Payment Success](./assets/screenshots/payment.png)
+![Payment](assets/screenshots/payment.png)
 
 ### Mail Received
-![Mail Received](./assets/screenshots/mailreceived.png)
+![Mail](assets/screenshots/mailreceived.png)
+
 
 
