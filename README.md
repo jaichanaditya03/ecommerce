@@ -74,4 +74,7 @@ NODE_PASS=your_email_app_password
 ### Payment Success
 ![Payment Success](./assets/screenshots/payment.png)
 
+### Mail Received
+![Mail Received](./assets/screenshots/mailreceived.png)
+
 
